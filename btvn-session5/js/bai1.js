@@ -29,45 +29,61 @@ const DIEM_UU_TIEN_DOI_TUONG = {
     3: 1
 }
 
+// tạo hàm ẩn lỗi
+const hideError = (errElement) => {
+    errElement.innerText = ""
+    errElement.classList.add("hidden")
+}
+
+// tạo hàm show lỗi
+const showError = (errElement, message) => {
+    errElement.innerText = message
+    errElement.classList.remove("hidden")
+}
+
 // tách hàm validation ra một hàm riêng để code sạch hơn
 const validationInput = (diemChuan, diem1, diem2, diem3) => {
-    if(isNaN(diemChuan) || isNaN(diem1) || isNaN(diem2) || isNaN(diem3)) {
-        alert("Vui lòng nhập số vào tất cả các trường điểm")
-        return
-    }
+    // B1: tạo biến isValid để kiểm tra. Default là true
+    let isValid = true
+
+    // B2: xóa tất cả các lỗi cũ nếu có
+    hideError(element.errorDiemChuan)
+    hideError(element.errorDiem1)
+    hideError(element.errorDiem2)
+    hideError(element.errorDiem3)
+
+    // if(isNaN(diemChuan) || isNaN(diem1) || isNaN(diem2) || isNaN(diem3)) {
+    //     alert("Vui lòng nhập số vào tất cả các trường điểm")
+    //     return
+    // }
     // range điểm chuẩn và điểm từng môn phải từ 0 đến 30
-    if (diemChuan < 0 || diemChuan > 30){
+    if (diemChuan < 0 || diemChuan > 30 || isNaN(diemChuan)){
         // alert("Điểm chuẩn phải từ 0 đến 30")
-        element.errorDiemChuan.innerText = "Điểm chuẩn phải từ 0 đến 30"
-        // DO thẻ p đang có class là hidden nên remove class hidden đi để hiển
-        // thị lỗi
-        element.errorDiemChuan.classList.remove("hidden")
-        return
+        showError(element.errorDiemChuan, "Điểm chuẩn phải từ 0 đến 30")
+        isValid = false
     }
 
     // điểm từng môn phải từ 0 đến 10
     // Môn 1:
-    if (diem1 < 0 || diem1 > 10){
-        element.errorDiem1.innerText = "Điểm môn 1 phải từ 0 đến 10"
-        element.errorDiem1.classList.remove("hidden")
-        return
+    if (diem1 < 0 || diem1 > 10 || isNaN(diem1)){
+        showError(element.errorDiem1, "Điểm môn 1 phải từ 0 đến 10")
+        isValid = false
     }
 
     // Môn 2:
-    if (diem2 < 0 || diem2 > 10){
+    if (diem2 < 0 || diem2 > 10 || isNaN(diem2)){
         // alert("Điểm môn 2 phải từ 0 đến 10")
-        element.errorDiem2.innerText = "Điểm môn 2 phải từ 0 đến 10"
-        element.errorDiem2.classList.remove("hidden")
-        return
+        showError(element.errorDiem2, "Điểm môn 2 phải từ 0 đến 10")
+        isValid = false
     }
 
     // Môn 3:
-    if (diem3 < 0 || diem3 > 10){
+    if (diem3 < 0 || diem3 > 10 || isNaN(diem3)){
         // alert("Điểm môn 3 phải từ 0 đến 10")
-        element.errorDiem3.innerText = "Điểm môn 3 phải từ 0 đến 10"
-        element.errorDiem3.classList.remove("hidden")
-        return
+        showError(element.errorDiem3, "Điểm môn 3 phải từ 0 đến 10")
+        isValid = false
     }
+    return isValid
 }
 
 // B2: Tạo hàm xử lý sự kiện click vào button
@@ -95,7 +111,10 @@ element.form.addEventListener('submit', (event) => {
     console.log(diemUuTienKhuVuc, diemUuTienDoiTuong)
 
     // B4.1: Validate dữ liệu người dùng nhập vào
-    validationInput(diemChuan, diem1, diem2, diem3)
+    const isValid = validationInput(diemChuan, diem1, diem2, diem3)
+    if (!isValid) { // nếu isValid là false thì sẽ không chạy tiếp mà sẽ dừng ở đây
+        return
+    }
     // LƯU Ý: code chạy được trước => clean code sau
     // if(isNaN(diemChuan) || isNaN(diem1) || isNaN(diem2) || isNaN(diem3)) {
     //     alert("Vui lòng nhập số vào tất cả các trường điểm")
