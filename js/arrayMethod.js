@@ -73,6 +73,7 @@ console.dir(filterSinhVienGioi)
 const dsPhim = [
     {name: "Deadpool", genre: "Action", rating: 8.5},
     {name: "Avengers", genre: "Action", rating: 8.0},
+    {name: "Avengers", genre: "Action 123", rating: 9.0},
     {name: "The Notebook", genre: "Romance", rating: 7.5},
     {name: "Titanic", genre: "Romance", rating: 9.0},
 ]
@@ -82,8 +83,46 @@ const filterPhimRate8 = dsPhim.filter((phim) => phim.rating >= 8)
 console.dir(filterPhimRate8)
 
 // case 2: tìm tên phim bất kỳ
-const keyword = "a"
-const findPhim = dsPhim.filter((phim) => phim.name.toLocaleLowerCase().includes(keyword.toLocaleLowerCase()))
+const keyword = "A"
+const formatedKeyword = keyword.toLocaleLowerCase()
+const findPhim = dsPhim.filter((phim) => phim.name.toLocaleLowerCase().includes(formatedKeyword))
 console.dir(findPhim)
 
 // find(), findIndex(), some(), every(), reduce(), sort()...
+// find(): tìm phần tử đầu tiên thỏa yêu cầu nào đó, trả về phần tử đó
+// kết quả trả về là 1 đối tượng, không phải mảng
+const findPhimAvengers = dsPhim.find((phim) => phim.name === "Avengers")
+console.dir(findPhimAvengers)
+// KHI NÀO DÙNG:
+// lấy thông tin chi tiết của 1 đối tượng theo tên, id, mã số nào đó
+
+// findIndex(): tìm phần tử đầu tiên thỏa yêu cầu nào đó, trả về vị trí (index) của phần tử đó trong mảng
+// trả về -1 nếu không tìm thấy phần tử nào thỏa yêu cầu
+const findIndexPhim = dsPhim.findIndex((phim) => phim.name === "Avengers")
+console.dir(findIndexPhim)
+
+// case -1:
+const findIndexPhimNotFound = dsPhim.findIndex((phim) => phim.name === "zxzczxcasdaddsf")
+console.dir(findIndexPhimNotFound)
+
+// some(): kiểm tra xem có phần tử nào thỏa yêu cầu nào đó hay không, trả về true hoặc false
+// kết quả trả về là boolean
+console.log("Some:")
+const isSomePhimAction = dsPhim.some((phim) => phim.genre === "Action")
+console.dir(isSomePhimAction)
+
+// every(): kiểm tra xem tất cả phần tử có thỏa yêu cầu nào đó hay không, trả về true hoặc false
+// kết quả trả về là boolean
+console.log("Every:")
+const isEveryPhimAction = dsPhim.every((phim) => phim.genre === "Action")
+console.dir(isEveryPhimAction)
+
+// reduce(): duyệt qua từng phần tử của mảng để tính toán ra 1 giá trị cuối cùng nào đó
+// kết quả trả về 1 giá trị duy nhất, không phải là mảng
+// KHI NÀO DÙNG:
+// - tính tổng, tích, trung bình cộng của 1 mảng số
+// - tính tổng tiền các mặt hàng trong giỏ hàng (quản lý sản phẩm, quản lý đơn hàng)
+const listNumbers = [1, 2, 3, 4, 5]
+// 0: tạo giá trị khởi tạo cho biến tổng
+const sum = listNumbers.reduce((num, tong) => (tong + num), 0)
+console.log("Tổng:", sum)
