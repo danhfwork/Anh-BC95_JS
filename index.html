@@ -1,121 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.11.0/axios.min.js" integrity="sha512-h9644v03pHqrIHThkvXhB2PJ8zf5E9IyVnrSfZg8Yj8k4RsO4zldcQc4Bi9iVLUCCsqNY0b4WXVV4UB+wbWENA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
-<body class="bg-gray-100 p-6">
-    <div class="mx-auto max-w-3xl bg-white rounded-lg p-6">
-        <h1 class="text-center text-green-500 text-2xl mb-4">DOM exercise</h1>
 
-        <!-- Bài 1: getElementById + innerText -->
-        <div class="bg-blue-200 rounded-lg">
-            <h2 class="font-bold text-indigo-500 mb-2">Bài 1: getElementById + innerText</h2>
-            <p id="text-result" class="bg-gray-300 p-3 rounded mb-2">Đây là nơi chứa text</p>
-            <button id="btn-result" class="bg-orange-400 text-white px-3 py-2 rounded-md">Click</button>
-        </div>
+<body>
+    <main class="p-96">
+        <h1 class="text-3xl font-bold text-center mb-5">Tính điểm tuyển sinh</h1>
 
-        <!-- Bài 2: giả lập flow login -->
-         <div class="bg-blue-200 rounded-lg mt-6 p-4">
-            <div>
-                <label class="block text-sm font-medium mb-1">Username: </label>
-                <input
-                    type="text"
-                    id="input-username"
-                    placeholder="Nhập username: "
-                    class="w-full border border-gray-600 rounded p-3"
-                >
-                <!-- thẻ p để hiển thị lỗi nếu có -->
-                <p class="hidden bg-red-200 text-white p-3 rounded-lg mt-1"></p>
-            </div>
+        <!-- bài 1: Tính điểm trung bình -->
+        <section class="bg-gray-100 rounded-lg shadow-lg p-6">
+            <form id="formXetTuyen" class="space-y-4">
+                <div>
+                    <label class="block font-medium mb-1">Điểm chuẩn</label>
+                    <input id="diemChuan" type="number" step="0.01" name="diemChuan"
+                        class="w-full border rounded-sm px-3 py-2" placeholder="Mời nhập điểm chuẩn" required>
+                    <p id="errorDiemChuan" class="hidden text-red-400"></p>
+                </div>
 
-            <div>
-                <label class="block text-sm font-medium mb-1 mt-2">Password: </label>
-                <input
-                    type="password"
-                    id="input-password"
-                    placeholder="Nhập password: "
-                    class="w-full border border-gray-600 rounded p-3"
-                >
-                <!-- thẻ p để hiển thị lỗi nếu có -->
-                <p id="result" class="bg-red-200 text-white p-3 rounded-lg mt-1"></p>
-            </div>
+                <div class="grid grid-cols-3 gap-4">
 
-            <button id="btn-login" class="bg-blue-500 text-white p-2 rounded-lg mt-2">
-                Login
-            </button>
+                    <div>
+                        <label class="block font-medium mb-1">Điểm môn 1</label>
+                        <input id="diemMon1" type="number" step="0.01" name="diemMon1"
+                            class="w-full border rounded-sm px-3 py-2" placeholder="Mời nhập điểm môn 1" required>
+                        <p id="errorDiemMon1" class="hidden text-red-400"></p>
+                    </div>
 
-         </div>
+                    <div>
+                        <label class="block font-medium mb-1">Điểm môn 2</label>
+                        <input id="diemMon2" type="number" step="0.01" name="diemMon2"
+                            class="w-full border rounded-sm px-3 py-2" placeholder="Mời nhập điểm môn 2" required>
+                        <p id="errorDiemMon2" class="hidden text-red-400"></p>
+                    </div>
 
-         <!-- Bài 3: tính chu vi, diện tích hình chữ nhật -->
-          <div class="bg-blue-200 rounded-lg mt-6 p-4">
-            <div>
-                <label class="block text-sm font-medium mb-1">Chiều dài: </label>
-                <input
-                    type="text"
-                    id="input-width"
-                    placeholder="Nhập chiều dài: "
-                    class="w-full border border-gray-600 rounded p-3"
-                >
-                <!-- thẻ p để hiển thị lỗi nếu có -->
-                <p class="hidden bg-red-200 text-white p-3 rounded-lg mt-1"></p>
-            </div>
+                    <div>
+                        <label class="block font-medium mb-1">Điểm môn 3</label>
+                        <input id="diemMon3" type="number" step="0.01" name="diemMon3"
+                            class="w-full border rounded-sm px-3 py-2" placeholder="Mời nhập điểm môn 3" required>
+                        <p id="errorDiemMon3" class="hidden text-red-400"></p>
+                    </div>
+                </div>
 
-            <div>
-                <label class="block text-sm font-medium mb-1 mt-2">Chiều rộng: </label>
-                <input
-                    type="text"
-                    id="input-height"
-                    placeholder="Nhập chiều rộng: "
-                    class="w-full border border-gray-600 rounded p-3"
-                >
-                <!-- thẻ p để hiển thị lỗi nếu có -->
-                <p id="result-hcn" class="bg-red-200 text-white p-3 rounded-lg mt-1"></p>
-            </div>
+                <!-- khu vực - đối tượng -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block font-medium mb-1">Khu vực</label>
+                        <select id="khuVuc" name="khuVuc" class="w-full border rounded-sm px-3 py-2" required>
+                            <option value="">Mời chọn khu vực</option>
+                            <option value="A">Khu vực A</option>
+                            <option value="B">Khu vực B</option>
+                            <option value="C">Khu vực C</option>
+                        </select>
+                    </div>
 
-            <button id="btn-hcn" class="bg-blue-500 text-white p-2 rounded-lg mt-2">
-                Tính toán
-            </button>
+                    <div>
+                        <label class="block font-medium mb-1">Đối tượng</label>
+                        <select id="doiTuong" name="doiTuong" class="w-full border rounded-sm px-3 py-2" required>
+                            <option value="">Mời chọn đối tượng</option>
+                            <option value="1">Đối tượng 1</option>
+                            <option value="2">Đối tượng 2</option>
+                            <option value="3">Đối tượng 3</option>
+                        </select>
+                    </div>
+                </div>
 
-         </div>
+                <button id="btnTinhDiem" type="submit" class="bg-green-400 rounded-md px-3 py-2">
+                    Tính điểm trung bình
+                </button>
+            </form>
+        </section>
 
-         <!-- Bài 4: Tính tổng số có 2 chữ số -->
-          <div class="bg-blue-200 rounded-lg mt-6 p-4">
-            <div>
-                <label class="block text-sm font-medium mb-1">Mời bạn nhập số có 2 chữ số: </label>
-                <input
-                    type="text"
-                    id="input-number"
-                    placeholder="Nhập số có 2 chữ số: "
-                    class="w-full border border-gray-600 rounded p-3"
-                >
-                <!-- thẻ p để hiển thị lỗi nếu có -->
-                <p class="hidden bg-red-200 text-white p-3 rounded-lg mt-1"></p>
-            </div>
+        <!-- bài 4: tính tiền cáp -->
+        <section class="bg-gray-100 rounded-lg shadow-lg p-6 mt-5">
+            <form id="formHoaDon" class="space-y-4">
+                <!-- maKH -->
+                <div>
+                    <label class="block font-medium mb-1">Mã khách hàng</label>
+                    <input
+                        type="text"
+                        id="maKH"
+                        class="w-full border rounded px-3 py-2"
+                        placeholder="Mời bạn nhập mã khách hàng"
+                        required
+                    >
+                    <p id="errorMaKH" class="hidden text-red-400"></p>
+                </div>
+                <!-- Loại khách hàng -->
+                <div>
+                    <label class="block font-medium mb-1">Loại khách hàng</label>
+                    <select id="loaiKH" class="w-full border rounded px-3 py-2">
+                        <option value="">--Chọn loại khách hàng--</option>
+                        <option value="nhaDan">Nhà dân</option>
+                        <option value="doanhNghiep">Doanh nghiệp</option>
+                    </select>
+                    <p id="errorLoaiKH" class="hidden text-red-400"></p>
+                </div>
 
+                <!-- số kết nối (chỉ hiện khi chọn doanh nghiệp) -->
+                <div id="wrapKetNoi" class="hidden">
+                    <label class="block font-medium mb-1">Số kết nối</label>
+                    <input
+                        type="number"
+                        id="soKetNoi"
+                        min="1"
+                        class="w-full border rounded px-3 py-2"
+                        placeholder="Nhập số kết nối"
+                    >
+                    <p id="errorSoKetNoi" class="hidden text-red-400"></p>
+                </div>
 
-            <button id="btn-calc" class="bg-blue-500 text-white p-2 rounded-lg mt-2">
-                Tính toán
-            </button>
+                <!-- số kênh cao cấp -->
+                <div>
+                    <label class="block font-medium mb-1">Số kênh cao cấp</label>
+                    <input
+                        type="text"
+                        id="soKenhCaoCap"
+                        class="w-full border rounded px-3 py-2"
+                        min="0"
+                        placeholder="Nhập số kênh cao cấp"
+                    >
+                    <p id="errorSoKenhCaoCap" class="hidden text-red-400"></p>
+                </div>
 
-            <p id="result-calc" class="bg-blue-200 p-3 rounded-lg mt-1"></p>
-
-         </div>
-
-
-    </div>
-
-
-    <!-- thứ tự import file js -->
-     <!-- những file js ở cuối sẽ được ưu tiên nhất -->
-      <!-- VD: để các file js của thư viên lên đầu, file js của mình sẽ để ở cuối -->
-    <script src="js/main.js"></script>
-    <script src="js/bai2.js"></script>
-    <script src="js/bai3.js"></script>
+                <!-- nút tính tiền hóa đơn -->
+                <button type="submit" class="w-full bg-blue-500 rounded-md text-white px-4 py-2 hover:bg-blue-600">
+                    Tính tiền cáp
+                </button>
+            </form>
+            <p id="resultHoaDon" class="hidden mt-4 font-bold"></p>
+        </section>
+    </main>
+    <script src="js/bai1.js"></script>
     <script src="js/bai4.js"></script>
-    <script src="js/ifElse.js"></script>
-    <script src="js/arrayLoop.js"></script>
+    <script src="js/arrayMethod.js"></script>
+    <script src="js/asyncAwait.js"></script>
+    <script src="js/destructuring.js"></script>
 </body>
+
 </html>

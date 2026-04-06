@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.11.0/axios.min.js"
+        integrity="sha512-h9644v03pHqrIHThkvXhB2PJ8zf5E9IyVnrSfZg8Yj8k4RsO4zldcQc4Bi9iVLUCCsqNY0b4WXVV4UB+wbWENA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <title>Document</title>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <!-- header -->
+     <header class="bg-white shadow flex items-center justify-between p-6">
+        <h1 class="text-2xl font-bold text-blue-600">Phone Store</h1>
+        <div>
+            <a href="admin.html" class="text-sm text-gray-700 hover:text-blue-600 underline mr-2">Admin</a>
+            <button id="btnGioHang" class="relative bg-blue-400 text-white px-4 py-2 rounded">
+                Giỏ hàng
+                <span class="absolute -top-2 -right-2 bg-red-500 text-white w-5 h-5 rounded-full flex justify-center items-center">0</span>
+            </button>
+        </div>
+     </header>
+
+    <!-- danh sách sản phẩm -->
+     <main class="max-w-7xl mx-auto px-4 py-6">
+        <!-- ô search, filter -->
+         <div class="mb-6">
+            <label>Tìm kiếm sản phẩm:</label>
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Tìm theo tên, mô tả, loại,..."
+                class="w-full border rounded-md px-4 py-2">
+         </div>
+
+         <!-- loading spinner để chờ call API -->
+          <p id="loading" class="hidden text-center text-blue-600 text-lg">Đang tải sản phẩm...</p>
+
+            <!-- container chứa danh sách sản phẩm: dùng javascript để call api và hiển thị list data -->
+             <div id="danhSachSP" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 ">
+                <!-- mock layout sẵn, sau đó move vào trong javascript -->
+                <!-- <div class="bg-white rounded-lg shadow hover:shadow-lg p-5">
+                    <img src="https://shopdunk.com/images/thumbs/0049403_iphone-17-pro-max-256gb.png" alt="iphone17" class="w-full h-48 object-contain mb-3">
+                    <h3>Iphone 17 Pro Max</h3>
+                    <p>Iphone 17 Pro Max 256GB</p>
+                    <p>34.000.000 VND</p>
+                    <span>iphone</span>
+
+                    <div class="flex gap-2 mt-auto">
+                        <button class="flex-1 bg-gray-200 px-3 py-2 rounded">Xem chi tiết</button>
+                        <button class="flex-1 bg-blue-500 text-white px-3 py-2 rounded">Thêm vào giỏ</button>
+                    </div>
+                </div>  -->
+
+             </div>
+     </main>
+
+    <!-- popup chi tiết sản phẩm - default: hidden. Khi user click -> show -->
+     <div id="popupChiTiet" class="hidden fixed z-50 inset-0 flex items-center justify-center">
+        <!-- overlay mờ ở phía sau -->
+         <div id="overlay" class="absolute inset-0 bg-black/50"></div>
+
+         <!-- Nội dung popup -->
+          <div class="relative">
+            <button id="btnClose" onclick="closePopupChiTiet()" class="absolute top-3 right-3 text-gray-700 text-2xl">x</button>
+            <div id="popupContent" class="p-6 bg-white rounded shadow-lg w-full max-h-[90vh]">
+                <!-- dùng javascript để hiển thị chi tiết sản phẩm -->
+
+            </div>
+          </div>
+
+     </div>
+
+    <!-- popup xem giỏ hàng - default: hidden. Khi user click -> show -->
+     <div id="popupGioHang" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+        <!-- overlay mờ ở phía sau -->
+         <div id="overlayGioHang" class="absolute inset-0 bg-black/50"></div>
+         <div id="popupGioHang" class="p-6 bg-white rounded shadow-lg w-full max-h-[90vh]">
+                <!-- dùng javascript để hiển thị giỏ hàng -->
+                <h1>Giỏ Hàng</h1>
+                <h1>zxczxczxczx</h1>
+            </div>
+
+     </div>
+
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>
